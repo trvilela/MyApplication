@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="esqueci_minha_senha">Esqueci minha senha</string>
+    <string name="criar_login">Criar Login</string>
+    <string name="senha">Senha</string>
+    <string name="e_mail">E-mail</string>
+    <string name="entrar">Entrar</string>
+    <string name="login_com_sucesso">Login realizado com sucesso</string>
+    <string name="email_senha_invalidos">Usuário ou senha inválidos</string>
+    <string name="email_senha_nao_preenchidos">Informe e-mail e senha antes de continuar.</string>
+    <string name="nome">Nome</string>
+    <string name="usuario_criado">Usuário criado com sucesso</string>
+    <string name="nomes">Nomes</string>
+    <string name="primeiro_acesso">Primeiro acesso</string>
+</resources>
