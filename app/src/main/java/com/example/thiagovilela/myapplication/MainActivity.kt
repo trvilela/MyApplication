@@ -7,19 +7,29 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.SignInButton.COLOR_DARK
+import com.google.android.gms.common.SignInButton.SIZE_ICON_ONLY
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
     private val mAuth = FirebaseAuth.getInstance()
+    private lateinit var firebaseAuthListener: AuthStateListener
 
     lateinit var googleApiClient: GoogleApiClient
+
+    lateinit var mDatabase: DatabaseReference
 
     private val SIGN_IN_CODE = 777
 
@@ -27,12 +37,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("usuarios")
+
         signinButton.setOnClickListener(this)
         esqueciSenhaButton.setOnClickListener(this)
         buttonPrimeiroAcesso.setOnClickListener(this)
         signinButtonGoogle.setOnClickListener(this)
 
+        signinButtonGoogle.setSize(SIZE_ICON_ONLY)
+        signinButtonGoogle.setColorScheme(COLOR_DARK)
+
+        firebaseAuthListener = AuthStateListener {
+            fun onAuthStateChanged(firebaseAuth: FirebaseAuth){
+
+                val user: FirebaseUser? = mAuth.currentUser
+
+                if (user != null)
+                    goNextStep()
+            }
+        }
+
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 
@@ -56,6 +82,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        mAuth.addAuthStateListener(firebaseAuthListener)
     }
 
 
@@ -102,13 +134,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
 
     private fun handleSignInResult(result: GoogleSignInResult) {
         if (result.isSuccess) {
-            intent = Intent(this, ConfigActivity::class.java)
-            startActivity(intent)
+            val account = result.signInAccount
+            val uid: String = mAuth.currentUser!!.uid
+            mDatabase.child(uid).child("nome").setValue(account!!.displayName)
+            firebaseAuthWithGoogle(result.signInAccount!!)
+            goNextStep()
+
+
 
         } else {
             Toast.makeText(this, "Usuário não logado", Toast.LENGTH_LONG).show()
         }
 
+    }
+
+    private fun firebaseAuthWithGoogle(signInAccount: GoogleSignInAccount) {
+
+        val credential: AuthCredential = GoogleAuthProvider.getCredential(signInAccount.idToken, null)
+
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this) {
+            task ->
+            if (!task.isSuccessful)
+                Toast.makeText(this, "Não foi possível autenticar o usuário", Toast.LENGTH_LONG).show()
+
+        }
+
+    }
+
+    private fun goNextStep(){
+
+
+        intent = Intent(this, ConfigActivity::class.java)
+        startActivity(intent)
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (firebaseAuthListener != null)
+            mAuth.removeAuthStateListener(firebaseAuthListener)
     }
 }
 
