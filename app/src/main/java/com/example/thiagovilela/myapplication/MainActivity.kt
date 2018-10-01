@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,  {
 
     private fun signinGoogle(){
 
-        cameraView.captureImage{cameraKitImage -> getQ
+        
 
         }
 
