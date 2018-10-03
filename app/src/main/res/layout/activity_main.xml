@@ -7,100 +7,61 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.google.android.gms.common.SignInButton
-
-        android:id="@+id/signinButtonGoogle"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/EntrarCom"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="145dp">
+        android:layout_gravity="center"
+        android:contentDescription="@string/e_mail"
+        android:text="@string/entrar_com" />
 
 
-    </com.google.android.gms.common.SignInButton>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signinButtonGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
-        android:id="@+id/EmailTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/textViewOu"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/e_mail"
-        android:text="@string/e_mail"
-        app:layout_constraintBottom_toTopOf="@+id/esqueciSenhaButton"
-        app:layout_constraintEnd_toStartOf="@+id/emailEditText"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.142" />
+        android:text="@string/ou"
+        android:layout_gravity="center_horizontal"/>
+
+
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:ems="10"
+        android:layout_marginBottom="8dp"
         android:hint="@string/e_mail"
-        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="@string/senha" />
 
-    <TextView
-        android:id="@+id/SenhaTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/senha"
-        app:layout_constraintBottom_toTopOf="@+id/esqueciSenhaButton"
-        app:layout_constraintEnd_toStartOf="@+id/senhaEditText"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/EmailTextView"
-        app:layout_constraintVertical_bias="0.398" />
 
     <EditText
         android:id="@+id/senhaEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:autofillHints=""
-        android:ems="10"
+        android:layout_marginBottom="8dp"
         android:hint="@string/senha"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
-
-    <Button
-        android:id="@+id/esqueciSenhaButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/esqueci_minha_senha"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonPrimeiroAcesso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="@string/primeiro_acesso"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/esqueciSenhaButton" />
 
     <Button
         android:id="@+id/signinButton"
@@ -117,5 +78,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/senhaEditText" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/esqueciSenhaButton"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/esqueci_minha_senha"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/buttonPrimeiroAcesso"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/primeiro_acesso"
+            app:layout_constraintStart_toEndOf="@+id/esqueciSenhaButton" />
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

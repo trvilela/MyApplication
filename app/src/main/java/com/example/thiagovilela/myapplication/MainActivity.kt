@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
@@ -14,7 +13,6 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton.COLOR_DARK
 import com.google.android.gms.common.SignInButton.SIZE_ICON_ONLY
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.database.DatabaseReference
@@ -27,11 +25,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var firebaseAuthListener: AuthStateListener
 
-    lateinit var googleApiClient: GoogleApiClient
+    private lateinit var googleApiClient: GoogleApiClient
 
-    lateinit var mDatabase: DatabaseReference
+    private lateinit var mDatabase: DatabaseReference
 
-    private val SIGN_IN_CODE = 777
+    private val signInCode = 777
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
         signinButtonGoogle.setOnClickListener(this)
 
         signinButtonGoogle.setSize(SIZE_ICON_ONLY)
-        signinButtonGoogle.setColorScheme(COLOR_DARK)
 
         firebaseAuthListener = AuthStateListener {
             fun onAuthStateChanged(firebaseAuth: FirebaseAuth){
@@ -114,19 +111,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
     private fun criarLogin() {
         val intent = Intent(this, CriarLoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun signinGoogle() {
 
         val intent = Intent(Auth.GoogleSignInApi.getSignInIntent(googleApiClient))
-        startActivityForResult(intent, SIGN_IN_CODE)
+        startActivityForResult(intent, signInCode)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == SIGN_IN_CODE) {
+        if (requestCode == signInCode) {
             val result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             handleSignInResult(result)
         }
@@ -134,9 +132,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
 
     private fun handleSignInResult(result: GoogleSignInResult) {
         if (result.isSuccess) {
-            val account = result.signInAccount
-            val uid: String = mAuth.currentUser!!.uid
-            mDatabase.child(uid).child("nome").setValue(account!!.displayName)
             firebaseAuthWithGoogle(result.signInAccount!!)
             goNextStep()
 
@@ -163,9 +158,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
 
     private fun goNextStep(){
 
-
         intent = Intent(this, ConfigActivity::class.java)
         startActivity(intent)
+        finish()
 
     }
 
@@ -176,8 +171,3 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
             mAuth.removeAuthStateListener(firebaseAuthListener)
     }
 }
-
-
-
-
-

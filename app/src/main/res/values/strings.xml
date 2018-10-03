@@ -12,4 +12,7 @@
     <string name="usuario_criado">Usuário criado com sucesso</string>
     <string name="nomes">Nomes</string>
     <string name="primeiro_acesso">Primeiro acesso</string>
+    <string name="escanear_quadro">Escanear quadro</string>
+    <string name="entrar_com">Entrar com</string>
+    <string name="ou">ou</string>
 </resources>

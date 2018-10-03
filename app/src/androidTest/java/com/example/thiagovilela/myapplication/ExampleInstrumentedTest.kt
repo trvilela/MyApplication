@@ -2,6 +2,7 @@ package com.example.thiagovilela.myapplication
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import org.junit.Assert
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,7 +15,8 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class MainActivity {
+class ExampleInstrumentedTest {
     @Test
-    fun signin() = Unit
+    fun signin() {
+    }
 }

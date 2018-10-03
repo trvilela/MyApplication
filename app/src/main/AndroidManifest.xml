@@ -16,12 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-            android:value="barcode"/>
+
         <activity android:name=".CriarLoginActivity" />
         <activity android:name=".ConfigActivity" />
-        <activity android:name=".ReaderQrCodeActivity"></activity>
+        <activity android:name=".ReaderQrCodeActivity" android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="barcode"/>
+        </activity>
     </application>
 
 </manifest>
