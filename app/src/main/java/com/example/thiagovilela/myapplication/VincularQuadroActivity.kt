@@ -76,28 +76,6 @@ class VincularQuadroActivity(private val CAMERA_REQUEST: Int = 1888, private val
 
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        val opr: OptionalPendingResult<GoogleSignInResult> = Auth.GoogleSignInApi.silentSignIn(googleApiClient)
-
-        if (opr.isDone) {
-            val result: GoogleSignInResult = opr.get()
-            handleSignInResult(result)
-        } else
-            opr.setResultCallback {
-                fun onResult(googleSignInResult: GoogleSignInResult) {
-                    handleSignInResult(googleSignInResult)
-                }
-            }
-    }
-
-    private fun handleSignInResult(result: GoogleSignInResult) {
-        if (result.isSuccess) {
-            val account = result.signInAccount
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent){
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
@@ -109,17 +87,12 @@ class VincularQuadroActivity(private val CAMERA_REQUEST: Int = 1888, private val
                     .addOnSuccessListener {
                         for (barcode in it) {
                             val rawValue = barcode.rawValue
+                            var int = 0
+                            mDatabase.child(mAuth.currentUser!!.uid).child("numero_quadro").push().child("qrcode").setValue(rawValue)
 
-                            mDatabase.child(mAuth.currentUser!!.uid).setValue(rawValue)
-
-                            val valueType = barcode.valueType
-                            // See API reference for complete list of supported types
-                            when (valueType) {
-                                FirebaseVisionBarcode.TYPE_URL -> {
-                                    val title = barcode.getUrl()!!.getTitle()
-                                    val url = barcode.getUrl()!!.getUrl()
-                                }
-                            }
+                            val intent = Intent(this, ConfiguracoesActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                     .addOnFailureListener {
