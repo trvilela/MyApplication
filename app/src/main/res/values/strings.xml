@@ -15,4 +15,9 @@
     <string name="escanear_quadro">Escanear quadro</string>
     <string name="entrar_com">Entrar com</string>
     <string name="ou">ou</string>
+    <string name="vincular_quadro">Vincular quadro</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="mensagens">Mensagens</string>
+    <string name="perfil">Perfil</string>
+    <string name="capturar_imagem">Capturar imagem</string>
 </resources>

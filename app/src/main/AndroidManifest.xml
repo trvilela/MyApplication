@@ -9,22 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".CriarLoginActivity" />
-        <activity android:name=".ConfigActivity" />
-        <activity android:name=".ReaderQrCodeActivity" android:screenOrientation="portrait">
-
-            <meta-data
-                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-                android:value="barcode"/>
-        </activity>
+        <activity android:name=".AcessoActivity" />
+        <activity android:name=".VincularQuadroActivity" />
+        <activity android:name=".ConfiguracoesActivity" />
+        <activity android:name=".PerfilActivity" />
+        <activity android:name=".MensagensActivity"></activity>
     </application>
 
 </manifest>

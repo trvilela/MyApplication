@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
@@ -16,7 +17,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_config.*
 
 
-class ConfigActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+class AcessoActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
 
     lateinit var mDatabase: DatabaseReference
@@ -29,7 +30,10 @@ class ConfigActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_config)
 
-        buttonQrCode.setOnClickListener(this)
+        buttonVincularQuadro.setOnClickListener(this)
+        buttonConfig.setOnClickListener(this)
+        buttonMensagens.setOnClickListener(this)
+        buttonPerfil.setOnClickListener(this)
 
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -54,15 +58,43 @@ class ConfigActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
 
 
         })
+
+        val opr: OptionalPendingResult<GoogleSignInResult> = Auth.GoogleSignInApi.silentSignIn(googleApiClient)
+
+        if (opr.isDone) {
+            val result: GoogleSignInResult = opr.get()
+            val account: GoogleSignInAccount? = result.signInAccount
+            mDatabase.child(mAuth.currentUser!!.uid).child("nome").setValue(account!!.givenName)
+            nomeBaseTextView.text = account!!.givenName
+        } else
+            opr.setResultCallback {
+                fun onResult(googleSignInResult: GoogleSignInResult) {
+
+                }
+            }
     }
 
     override fun onClick(view: View) {
 
         val id = view.id
 
-        if (id == R.id.buttonQrCode) {
-          //  val intent = Intent(this, ReaderQrCodeActivity::class.java)
-          //startActivity(intent)
+        when (id) {
+            R.id.buttonVincularQuadro -> {
+                vincularQuadro()
+
+            }
+            R.id.buttonConfig -> {
+                configurar()
+
+            }
+            R.id.buttonMensagens -> {
+                msgs()
+
+            }
+            R.id.buttonPerfil -> {
+                perfil()
+
+            }
         }
     }
 
@@ -71,28 +103,25 @@ class ConfigActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun vincularQuadro() {
 
-        val opr: OptionalPendingResult<GoogleSignInResult> = Auth.GoogleSignInApi.silentSignIn(googleApiClient)
-
-        if (opr.isDone) {
-            val result: GoogleSignInResult = opr.get()
-            handleSignInResult(result)
-        } else
-            opr.setResultCallback {
-                fun onResult(googleSignInResult: GoogleSignInResult) {
-                    handleSignInResult(googleSignInResult)
-                }
-            }
+        val intent = Intent(this, VincularQuadroActivity::class.java)
+        startActivity(intent)
     }
 
-    private fun handleSignInResult(result: GoogleSignInResult) {
-        if (result.isSuccess) {
-            val account = result.signInAccount
+    private fun configurar() {
+        val intent = Intent(this, ConfiguracoesActivity::class.java)
+        startActivity(intent)
+    }
 
-            nomeBaseTextView.text = account!!.givenName
-        }
+    private fun perfil() {
+        val intent = Intent(this, PerfilActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun msgs() {
+        val intent = Intent(this, MensagensActivity::class.java)
+        startActivity(intent)
     }
 
 

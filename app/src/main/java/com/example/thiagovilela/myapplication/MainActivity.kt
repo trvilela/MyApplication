@@ -10,7 +10,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.SignInButton.COLOR_DARK
 import com.google.android.gms.common.SignInButton.SIZE_ICON_ONLY
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.*
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
             mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, getString(R.string.login_com_sucesso), Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, ConfigActivity::class.java)
+                    val intent = Intent(this, AcessoActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else
@@ -158,7 +157,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, GoogleApiClient.
 
     private fun goNextStep(){
 
-        intent = Intent(this, ConfigActivity::class.java)
+        intent = Intent(this, AcessoActivity::class.java)
         startActivity(intent)
         finish()
 
